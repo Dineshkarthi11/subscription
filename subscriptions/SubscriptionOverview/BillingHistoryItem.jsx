@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import detailbg from "../../../../assets/images/detailbg.png";
 
-function BillingHistoryItem({ date, orderId, isLatest, planDetails }) {
+function BillingHistoryItem({ date, orderId, isLatest, planDetails, companyInfo }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => {
@@ -44,7 +44,7 @@ function BillingHistoryItem({ date, orderId, isLatest, planDetails }) {
           </button>
         </div>
       </div>
-      {isLatest && isExpanded && planDetails && (
+      {isLatest && isExpanded && companyInfo && (
         <div className="relative w-full rounded-lg overflow-hidden">
           <img
             src={detailbg}
@@ -53,14 +53,31 @@ function BillingHistoryItem({ date, orderId, isLatest, planDetails }) {
             style={{ minHeight: "100%", height: "auto" }}
           />
           <div className="relative z-10 p-3 bg-opacity-80">
+            {/* Company Information */}
+            <div className="ml-6 my-4 text-gray-500 text-xs">Company Information</div>
+            <div className="flex justify-between mx-6 mt-2 text-sm">
+              <div>Company:</div>
+              <div>{companyInfo.company}</div>
+            </div>
+            <div className="flex justify-between mx-6 mt-2 text-sm">
+              <div>Email:</div>
+              <div>{companyInfo.email}</div>
+            </div>
+            <div className="flex justify-between mx-6 mt-2 text-sm">
+              <div>Phone:</div>
+              <div>{companyInfo.phone}</div>
+            </div>
+
+            {/* Plan Details */}
             <div className="ml-6 my-4 text-gray-500 text-xs">Plan details</div>
             <div className="relative my-10 overflow-y-auto">
-              {planDetails.map((detail, index) => (
-                <div key={index} className="flex my-6 justify-between text-sm mx-6 mt-2">
-                  <div className="truncate">{detail.label}</div>
-                  <div className="truncate mx-[40%]">{detail.value}</div>
-                </div>
-              ))}
+              {planDetails &&
+                planDetails.map((detail, index) => (
+                  <div key={index} className="flex my-6 justify-between text-sm mx-6 mt-2">
+                    <div className="truncate">{detail.label}</div>
+                    <div className="truncate mx-[40%]">{detail.value}</div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

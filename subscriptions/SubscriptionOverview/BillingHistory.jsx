@@ -4,6 +4,8 @@ import BillingHistoryItem from "./BillingHistoryItem";
 function BillingHistory() {
   const [billingHistoryData, setBillingHistoryData] = useState([]);
   const [companyInfo, setCompanyInfo] = useState(null); // To store company data
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
     // Fetch company info from the provided API
@@ -17,59 +19,51 @@ function BillingHistory() {
           body: JSON.stringify({
             action: "getAllTransferDetails",
             method: "POST",
-            kwargs: { companyId: "22" },
+            kwargs: { companyId: "22" }, // Company ID provided in the API request
           }),
         });
 
-        if (response.ok) {
-          const result = await response.json();
-          // Assuming the API returns data in the format { company, email, phone }
-          const { company, email, phone } = result; 
-          setCompanyInfo({ company, email, phone });
-        } else {
-          console.error("Failed to fetch company info");
+        if (!response.ok) {
+          throw new Error("Failed to fetch company info");
         }
+
+        const result = await response.json();
+        // Assuming the API returns a response with company, email, and phone fields
+        const { company, email, phone } = result.data; // Adjust this to match your API response structure
+
+        setCompanyInfo({ company, email, phone });
+        setLoading(false); // Mark loading as done
       } catch (error) {
         console.error("Error fetching company info:", error);
+        setError(error.message);
+        setLoading(false); // Mark loading as done
       }
     };
 
-    // Billing history data (static or real)
-    const billingHistory = [
-      {
-        date: "02 SEP 2024",
-        orderId: "37489",
-        isLatest: true,
-        planDetails: [
-          { label: "Loyaltri Mobile App - Staff Limit", value: "40 Staff" },
-          { label: "Loyaltri Web App - Staff Limit", value: "40 Staff" },
-          { label: "Loyaltri Lens Subscription", value: "1 Year(s)" },
-        ],
-      },
-      {
-        date: "02 SEP 2023",
-        orderId: "37489",
-        isLatest: false,
-      },
-      {
-        date: "02 SEP 2022",
-        orderId: "37489",
-        isLatest: false,
-      },
-    ];
-
-    setBillingHistoryData(billingHistory);
-    fetchCompanyInfo(); // Fetch company info from API
+    fetchCompanyInfo();
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading message while fetching data
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Show error message if there is an issue
+  }
 
   return (
     <section className="flex flex-col px-6 mt-6 w-full max-md:px-5 max-md:max-w-full">
       <h2 className="self-start text-base font-medium text-black">
         Billing History
       </h2>
-      {billingHistoryData.map((item, index) => (
-        <BillingHistoryItem key={index} {...item} companyInfo={companyInfo} />
-      ))}
+      {/* Pass the real company info into the BillingHistoryItem */}
+      {billingHistoryData.length > 0 ? (
+        billingHistoryData.map((item, index) => (
+          <BillingHistoryItem key={index} {...item} companyInfo={companyInfo} />
+        ))
+      ) : (
+        <div>No billing history available.</div>
+      )}
     </section>
   );
 }

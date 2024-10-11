@@ -49,3 +49,16 @@ const BillingHistory = () => {
 };
 
 export default BillingHistory;
+
+Cannot read properties of undefined (reading 'length')
+TypeError: Cannot read properties of undefined (reading 'length')
+    at BillingHistory (http://localhost:3000/static/js/bundle.js:65843:29)
+    at renderWithHooks (http://localhost:3000/static/js/bundle.js:504174:22)
+    at updateFunctionComponent (http://localhost:3000/static/js/bundle.js:507741:24)
+    at beginWork (http://localhost:3000/static/js/bundle.js:509460:20)
+    at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:494430:18)
+    at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:494474:20)
+    at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:494531:35)
+    at beginWork$1 (http://localhost:3000/static/js/bundle.js:514429:11)
+    at performUnitOfWork (http://localhost:3000/static/js/bundle.js:513677:16)
+    at workLoopSync (http://localhost:3000/static/js/bundle.js:513600:9)

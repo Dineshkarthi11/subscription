@@ -1,30 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
-import Invoice from "../../../../assets/images/Invoice.png";
 import detailbg from "../../../../assets/images/detailbg.png";
 
 function BillingHistoryItem({ date, orderId, isLatest, planDetails }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const toggleExpand = async () => {
-    if (!isExpanded && isLatest) {
-      try {
-        const response = await axios.post(
-          "https://dev-api.loyaltri.com/api/main",
-          {
-            action: "getCompaniesByLocation",
-            method: "POST",
-            kwargs: {
-              employeeId: "5535",
-              location: "2",
-            },
-          }
-        );
-        console.log(response.data); // You can handle planDetails from API here
-      } catch (error) {
-        console.error("Error fetching plan details", error);
-      }
-    }
+  const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
@@ -46,6 +26,22 @@ function BillingHistoryItem({ date, orderId, isLatest, planDetails }) {
           <div className="grow my-auto text-sm text-black">
             Order ID: {orderId}
           </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleExpand();
+            }}
+          >
+            <img
+              src={
+                isExpanded
+                  ? "https://github.com/Dineshkarthi11/loyaltri/blob/main/assets/up.png?raw=true"
+                  : "https://github.com/Dineshkarthi11/loyaltri/blob/main/assets/down.png?raw=true"
+              }
+              alt="Toggle"
+              className="w-8"
+            />
+          </button>
         </div>
       </div>
       {isLatest && isExpanded && planDetails && (
@@ -61,7 +57,7 @@ function BillingHistoryItem({ date, orderId, isLatest, planDetails }) {
             <div className="relative my-10 overflow-y-auto">
               {planDetails.map((detail, index) => (
                 <div key={index} className="flex my-6 justify-between text-sm mx-6 mt-2">
-                  <div className="truncate ">{detail.label}</div>
+                  <div className="truncate">{detail.label}</div>
                   <div className="truncate mx-[40%]">{detail.value}</div>
                 </div>
               ))}

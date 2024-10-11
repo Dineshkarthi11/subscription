@@ -1,30 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import BillingHistoryItem from "./BillingHistoryItem";
 
-const billingHistoryData = [
-  {
-    date: "02 SEP 2024",
-    orderId: "37489",
-    isLatest: true,
-    planDetails: [
-      { label: "Loyaltri Mobile App - Staff Limit", value: "40 Staff" },
-      { label: "Loyaltri Web App - Staff Limit", value: "40 Staff" },
-      { label: "Loyaltri Lens Subscription", value: "1 Year(s)" },
-    ],
-  },
-  {
-    date: "02 SEP 2023",
-    orderId: "37489",
-    isLatest: false,
-  },
-  {
-    date: "02 SEP 2022",
-    orderId: "37489",
-    isLatest: false,
-  },
-];
-
 function BillingHistory() {
+  const [billingHistoryData, setBillingHistoryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch API data when component mounts
+    const fetchBillingHistory = async () => {
+      try {
+        const response = await fetch("https://dev-api.loyaltri.com/api/main", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer YOUR_BEARER_TOKEN",
+          },
+          body: JSON.stringify({
+            action: "getAllTransferDetails",
+            method: "POST",
+            kwargs: {
+              companyId: "22",
+            },
+          }),
+        });
+        const data = await response.json();
+        setBillingHistoryData(data?.transferDetails || []);
+      } catch (error) {
+        console.error("Error fetching billing history:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBillingHistory();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <section className="flex flex-col px-6 mt-6 w-full max-md:px-5 max-md:max-w-full">
       <h2 className="self-start text-base font-medium text-black">
@@ -38,7 +52,3 @@ function BillingHistory() {
 }
 
 export default BillingHistory;
-
-
-
-

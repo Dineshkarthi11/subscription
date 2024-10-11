@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const BillingHistory = () => {
     const [companyData, setCompanyData] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -12,53 +12,48 @@ const BillingHistory = () => {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJMT1lBTFRSSSBTRVJWRVIiLCJhdWQiOiJMT1lBTFRSSSBDTElFTlQiLCJzdWIiOiJBVFRIRU5USUNBVElPTiIsImlhdCI6MTcyNDkzMDU5NCwidXNlck5hbWUiOiJhZG1pbiJ9.WftJvLCgEd9lJYfrjbBeKWdfn1g5FT_5HkOiYhJB8ds`,
-                    },
+                    }
                 });
 
-                console.log('Request URL:', response.url); // Log the request URL
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-
                 const data = await response.json();
-                console.log('API Data:', data); // Log the entire response
-
-                setCompanyData(data.result || []); // Set the company data
-                setLoading(false); // Set loading to false after data is fetched
+                setCompanyData(data.result || []);
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setError(error.message); // Set error message
-                setLoading(false); // Set loading to false even on error
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
             }
         };
 
         fetchData();
     }, []);
 
-    if (loading) {
-        return <p>Loading company data...</p>;
-    }
-
-    if (error) {
-        return <p>Error: {error}</p>;
-    }
+    if (isLoading) return <div>Loading company data...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Company Data</h1>
-            <ul className="space-y-4">
-                {companyData.map((company) => (
-                    <li key={company.companyId} className="p-4 bg-white shadow rounded-md">
-                        <h2 className="text-xl font-semibold">{company.company}</h2>
-                        <p><strong>Email:</strong> {company.email}</p>
-                        <p><strong>Phone:</strong> {company.phone}</p>
-                        <p><strong>Website:</strong> <a href={`http://${company.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-500">{company.url}</a></p>
-                        <p><strong>Address:</strong> {company.address}</p>
-                        <p><strong>CIN:</strong> {company.cin}</p>
-                        <p><strong>Zip Code:</strong> {company.zipCode}</p>
-                    </li>
-                ))}
-            </ul>
+        <div className="p-4">
+            <h2 className="text-xl font-bold mb-4">Billing History</h2>
+            <div className="bg-white shadow-md rounded-lg p-4">
+                {companyData.length === 0 ? (
+                    <div>No company data available.</div>
+                ) : (
+                    <ul className="space-y-4">
+                        {companyData.map((company) => (
+                            <li key={company.companyId} className="border p-4 rounded-lg">
+                                <h3 className="text-lg font-semibold">{company.company}</h3>
+                                <div className="text-gray-700">
+                                    <div>Email: {company.email}</div>
+                                    <div>Phone: {company.phone}</div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };

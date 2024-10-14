@@ -7,14 +7,12 @@ import HeaderThird from "../RequestAdditionalUserMore/HeaderThird";
 import UserLimitExceeded from "../UserLimitExceeded/UserLimitExceeded"; // Import UserLimitExceeded
 import coupon from "../../../../assets/images/coupon.png";
 
-function CouponCodeInput() {
-  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); // Modal for RequestAdditionalUserMore
-  const [isUserLimitPopupOpen, setIsUserLimitPopupOpen] = useState(false); // UserLimitExceeded state
+function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept the callback prop
+  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); 
 
-  // Function to handle Make Payment button click
-  const handleMakePayment = () => {
-    setIsModaltwoOpen(false); // Close the RequestAdditionalUserMore modal
-    setTimeout(() => setIsUserLimitPopupOpen(true), 300); // Open UserLimitExceeded modal after a short delay
+  const handleApplyClick = () => {
+    closeRequestAdditionalUserModal(); // Close the first modal
+    setIsModaltwoOpen(true); // Open the second modal
   };
 
   return (
@@ -34,7 +32,7 @@ function CouponCodeInput() {
           />
         </div>
         <button
-          onClick={() => setIsModaltwoOpen(true)} // Open RequestAdditionalUserMore modal
+          onClick={handleApplyClick} // Trigger both close and open modals
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
           Apply
@@ -55,7 +53,6 @@ function CouponCodeInput() {
         centered={true}
         padding="8px"
         customButton={false}
-        onOk={handleMakePayment} // Trigger UserLimitExceeded modal on "Make Payment"
       >
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderThird />
@@ -66,19 +63,6 @@ function CouponCodeInput() {
           </form>
         </section>
       </ModalAnt>
-
-      {/* Conditionally render the UserLimitExceeded popup */}
-      {isUserLimitPopupOpen && (
-        <ModalAnt
-          isVisible={isUserLimitPopupOpen}
-          onClose={() => setIsUserLimitPopupOpen(false)} // Close the UserLimitExceeded popup
-          showOkButton={false}
-          showCancelButton={false}
-          centered={true}
-        >
-          <UserLimitExceeded />
-        </ModalAnt>
-      )}
     </div>
   );
 }

@@ -7,7 +7,7 @@ import SupportMessage from "./SupportMessage";
 
 function UserLimitExceeded() {
   return (
-    <div className="relative h-screen w-full flex items-center justify-center backdrop-blur-md bg-white/30">
+    <div className="relative h-screen w-screen flex items-center justify-center backdrop-blur-md bg-white/30">
       {/* Full-page background with blur */}
       <div className="absolute inset-0 backdrop-blur-md bg-white/30 z-0"></div>
 

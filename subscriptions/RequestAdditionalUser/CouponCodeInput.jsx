@@ -11,6 +11,11 @@ function CouponCodeInput() {
   const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); // Modal for RequestAdditionalUserMore
   const [isUserLimitPopupOpen, setIsUserLimitPopupOpen] = useState(false); // UserLimitExceeded state
 
+  // Function to handle the Apply button click and close the RequestAdditionalUserMore modal
+  const handleApplyClick = () => {
+    setIsModaltwoOpen(false); // Close the RequestAdditionalUserMore modal
+  };
+
   // Function to handle Make Payment button click
   const handleMakePayment = () => {
     setIsModaltwoOpen(false); // Close the RequestAdditionalUserMore modal
@@ -34,7 +39,7 @@ function CouponCodeInput() {
           />
         </div>
         <button
-          onClick={() => setIsModaltwoOpen(true)} // Open RequestAdditionalUserMore modal
+          onClick={handleApplyClick} // Close the first modal on Apply click
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
           Apply
@@ -84,4 +89,3 @@ function CouponCodeInput() {
 }
 
 export default CouponCodeInput;
-

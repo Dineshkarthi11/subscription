@@ -34,7 +34,7 @@ function CouponCodeInput() {
         </div>
         <button
           onClick={() => {
-            setIsModaltwoOpen(true);
+            setIsModaltwoOpen(true); // Open the modal
           }}
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
@@ -45,7 +45,7 @@ function CouponCodeInput() {
       {/* Show RequestAdditionalUserMore modal */}
       <ModalAnt
         isVisible={isModaltwoOpen}
-        onClose={() => setIsModaltwoOpen(false)}
+        onClose={() => setIsModaltwoOpen(false)} // Close modal on cancel
         showOkButton={true}
         cancelText="Request"
         okText="Make Payment"
@@ -56,9 +56,9 @@ function CouponCodeInput() {
         centered={true}
         padding="8px"
         customButton={false}
-        onOk={handleMakePayment} // Call handleMakePayment on clicking "Make Payment"
+        onOk={handleMakePayment} // Call handleMakePayment when "Make Payment" is clicked
       >
-        {/* If-Else statement inside the section */}
+        {/* Conditionally render based on showLimitExceeded */}
         {showLimitExceeded ? (
           // If showLimitExceeded is true, render UserLimitExceeded component
           <UserLimitExceeded />

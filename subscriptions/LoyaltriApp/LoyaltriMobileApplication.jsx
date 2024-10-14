@@ -11,14 +11,10 @@ import Secondcard from "../../../../assets/images/Secondcard.png";
 
 function LoyaltriMobileApplication() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false); 
+  const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false);
 
   const closeActiveInactiveUsers = () => {
     setShowActiveInactiveUsers(false);
-  };
-
-  const closeRequestAdditionalUserModal = () => {
-    setIsModalOpen(false); // This will close the first modal
   };
 
   return (
@@ -60,9 +56,10 @@ function LoyaltriMobileApplication() {
         </div>
       </div>
 
+      {/* First Modal (RequestAdditionalUser) */}
       <ModalAnt
         isVisible={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => setIsModalOpen(false)} // Close the first modal
         showOkButton={true}
         cancelText="Request"
         okText="Make Payment"
@@ -77,7 +74,7 @@ function LoyaltriMobileApplication() {
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderSecond />
           <UserCountInput />
-          <CouponCodeInput closeRequestAdditionalUserModal={closeRequestAdditionalUserModal} />
+          <CouponCodeInput closeRequestAdditionalUserModal={() => setIsModalOpen(false)} /> {/* Pass callback to close modal */}
         </section>
       </ModalAnt>
 

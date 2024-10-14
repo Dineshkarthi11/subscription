@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import ModalAnt from "../../../common/ModalAnt";
 import UserCountInputOne from "../RequestAdditionalUserMore/UserCountInputOne";
 import DiscountCode from "../RequestAdditionalUserMore/DiscountCode";
@@ -8,7 +8,8 @@ import HeaderThird from "../RequestAdditionalUserMore/HeaderThird";
 import coupon from "../../../../assets/images/coupon.png";
 
 function CouponCodeInput() {
-  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); // Modal for RequestAdditionalUserMore
+  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false);
+  const navigate = useNavigate(); // Use the navigate hook to redirect
 
   return (
     <div className="flex flex-col mt-3.5 w-[410px] text-sm leading-none min-h-[53px]">
@@ -28,7 +29,7 @@ function CouponCodeInput() {
         </div>
         <button
           onClick={() => {
-            setIsModaltwoOpen(true); // Directly open the RequestAdditionalUserMore modal
+            setIsModaltwoOpen(true);
           }}
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
@@ -50,6 +51,10 @@ function CouponCodeInput() {
         centered={true}
         padding="8px"
         customButton={false}
+        onOk={() => {
+          setIsModaltwoOpen(false); // Close modal
+          navigate("/user-limit-exceeded"); // Navigate to UserLimitExceeded
+        }}
       >
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderThird />

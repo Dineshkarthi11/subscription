@@ -7,45 +7,20 @@ import HeaderThird from "../RequestAdditionalUserMore/HeaderThird";
 import UserLimitExceeded from "../UserLimitExceeded/UserLimitExceeded"; // Import UserLimitExceeded
 import coupon from "../../../../assets/images/coupon.png";
 
-function CouponCodeInput() {
-  const [isFirstPopupOpen, setIsFirstPopupOpen] = useState(true); // First popup (LoyaltriMobileApplication)
+function CouponCodeInput({ closeRequestAdditionalUserModal }) {
   const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); // Modal for RequestMoreUsers
   const [isUserLimitPopupOpen, setIsUserLimitPopupOpen] = useState(false); // UserLimitExceeded state
 
-  // Function to handle the Apply button click and open the RequestMoreUsers modal
-  const handleApplyClick = () => {
-    setIsModaltwoOpen(true); // Open the RequestMoreUsers modal
-  };
-
   // Function to handle Make Payment button click
   const handleMakePayment = () => {
-    // Close both first and second modals, and open UserLimitExceeded modal
-    setIsFirstPopupOpen(false); // Close first popup (LoyaltriMobileApplication)
-    setIsModaltwoOpen(false); // Close second popup (RequestMoreUsers)
-    setTimeout(() => {
-      setIsUserLimitPopupOpen(true); // Open UserLimitExceeded modal after a short delay
-    }, 300);
+    // Close RequestMoreUsers modal and LoyaltriMobileApplication modal
+    setIsModaltwoOpen(false); // Close the RequestMoreUsers modal
+    closeRequestAdditionalUserModal(); // Close LoyaltriMobileApplication modal
+    setTimeout(() => setIsUserLimitPopupOpen(true), 300); // Open UserLimitExceeded modal after a short delay
   };
 
   return (
     <div className="flex flex-col mt-3.5 w-[410px] text-sm leading-none min-h-[53px]">
-      {/* First popup (LoyaltriMobileApplication) */}
-      {isFirstPopupOpen && (
-        <ModalAnt
-          isVisible={isFirstPopupOpen}
-          onClose={() => setIsFirstPopupOpen(false)} // Close the first popup
-          showOkButton={false}
-          showCancelButton={false}
-          centered={true}
-        >
-          <div className="p-5">
-            <h2>LoyaltriMobileApplication</h2>
-            {/* Add any content here for LoyaltriMobileApplication */}
-          </div>
-        </ModalAnt>
-      )}
-
-      {/* Coupon code input section */}
       <div className="flex overflow-hidden gap-10 justify-between items-center px-2 py-2.5 w-full rounded-lg border border-gray-300 border-dashed bg-zinc-50 min-h-[53px]">
         <div className="flex gap-2 items-center self-stretch my-auto text-gray-500">
           <img
@@ -61,17 +36,17 @@ function CouponCodeInput() {
           />
         </div>
         <button
-          onClick={handleApplyClick} // Open the second modal (RequestMoreUsers)
+          onClick={() => setIsModaltwoOpen(true)} // Open RequestMoreUsers modal
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
           Apply
         </button>
       </div>
 
-      {/* RequestMoreUsers modal (second popup) */}
+      {/* RequestMoreUsers modal */}
       <ModalAnt
         isVisible={isModaltwoOpen}
-        onClose={() => setIsModaltwoOpen(false)} // Close the RequestMoreUsers modal
+        onClose={() => setIsModaltwoOpen(false)}
         showOkButton={true}
         cancelText="Request"
         okText="Make Payment"

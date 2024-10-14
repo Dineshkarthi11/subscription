@@ -4,14 +4,17 @@ import UserCountInputOne from "../RequestAdditionalUserMore/UserCountInputOne";
 import DiscountCode from "../RequestAdditionalUserMore/DiscountCode";
 import TotalAmount from "../RequestAdditionalUserMore/TotalAmount";
 import HeaderThird from "../RequestAdditionalUserMore/HeaderThird";
+import UserLimitExceeded from "../UserLimitExceeded/UserLimitExceeded"; // Import UserLimitExceeded
 import coupon from "../../../../assets/images/coupon.png";
 
-function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept callback as a prop
-  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false);
+function CouponCodeInput() {
+  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); // Modal for RequestAdditionalUserMore
+  const [isUserLimitPopupOpen, setIsUserLimitPopupOpen] = useState(false); // UserLimitExceeded state
 
-  const handleApplyClick = () => {
-    closeRequestAdditionalUserModal(); // Close the first modal
-    setIsModaltwoOpen(true); // Open the second modal
+  // Function to handle Make Payment button click
+  const handleMakePayment = () => {
+    setIsModaltwoOpen(false); // Close the RequestAdditionalUserMore modal
+    setTimeout(() => setIsUserLimitPopupOpen(true), 300); // Open UserLimitExceeded modal after a short delay
   };
 
   return (
@@ -31,14 +34,14 @@ function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept callba
           />
         </div>
         <button
-          onClick={handleApplyClick} // Trigger both close and open modals
+          onClick={() => setIsModaltwoOpen(true)} // Open RequestAdditionalUserMore modal
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
           Apply
         </button>
       </div>
 
-      {/* Second modal (RequestAdditionalUserMore) */}
+      {/* RequestAdditionalUserMore modal */}
       <ModalAnt
         isVisible={isModaltwoOpen}
         onClose={() => setIsModaltwoOpen(false)}
@@ -52,6 +55,7 @@ function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept callba
         centered={true}
         padding="8px"
         customButton={false}
+        onOk={handleMakePayment} // Trigger UserLimitExceeded modal on "Make Payment"
       >
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderThird />
@@ -62,8 +66,22 @@ function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept callba
           </form>
         </section>
       </ModalAnt>
+
+      {/* Conditionally render the UserLimitExceeded popup */}
+      {isUserLimitPopupOpen && (
+        <ModalAnt
+          isVisible={isUserLimitPopupOpen}
+          onClose={() => setIsUserLimitPopupOpen(false)} // Close the UserLimitExceeded popup
+          showOkButton={false}
+          showCancelButton={false}
+          centered={true}
+        >
+          <UserLimitExceeded />
+        </ModalAnt>
+      )}
     </div>
   );
 }
 
 export default CouponCodeInput;
+

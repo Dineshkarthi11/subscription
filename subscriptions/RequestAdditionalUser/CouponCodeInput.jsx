@@ -4,11 +4,10 @@ import UserCountInputOne from "../RequestAdditionalUserMore/UserCountInputOne";
 import DiscountCode from "../RequestAdditionalUserMore/DiscountCode";
 import TotalAmount from "../RequestAdditionalUserMore/TotalAmount";
 import HeaderThird from "../RequestAdditionalUserMore/HeaderThird";
-import UserLimitExceeded from "../UserLimitExceeded/UserLimitExceeded"; // Import UserLimitExceeded
 import coupon from "../../../../assets/images/coupon.png";
 
-function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept the callback prop
-  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); 
+function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept callback as a prop
+  const [isModaltwoOpen, setIsModaltwoOpen] = useState(false);
 
   const handleApplyClick = () => {
     closeRequestAdditionalUserModal(); // Close the first modal
@@ -39,7 +38,7 @@ function CouponCodeInput({ closeRequestAdditionalUserModal }) { // Accept the ca
         </button>
       </div>
 
-      {/* RequestAdditionalUserMore modal */}
+      {/* Second modal (RequestAdditionalUserMore) */}
       <ModalAnt
         isVisible={isModaltwoOpen}
         onClose={() => setIsModaltwoOpen(false)}

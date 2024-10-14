@@ -4,18 +4,17 @@ import UserCountInputOne from "../RequestAdditionalUserMore/UserCountInputOne";
 import DiscountCode from "../RequestAdditionalUserMore/DiscountCode";
 import TotalAmount from "../RequestAdditionalUserMore/TotalAmount";
 import HeaderThird from "../RequestAdditionalUserMore/HeaderThird";
-import UserLimitExceeded from "../UserLimitExceeded"; // Import UserLimitExceeded component
+import UserLimitExceeded from "../UserLimitExceeded/UserLimitExceeded"; // Import UserLimitExceeded
 import coupon from "../../../../assets/images/coupon.png";
 
 function CouponCodeInput() {
   const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); // Modal for RequestAdditionalUserMore
-  const [showUserLimitExceeded, setShowUserLimitExceeded] = useState(false); // State to toggle UserLimitExceeded
+  const [isUserLimitPopupOpen, setIsUserLimitPopupOpen] = useState(false); // UserLimitExceeded state
 
-  // Function to handle showing UserLimitExceeded component
+  // Function to handle Make Payment button click
   const handleMakePayment = () => {
-    // Set state to show UserLimitExceeded
-    setShowUserLimitExceeded(true);
-    setIsModaltwoOpen(false); // Close the modal
+    setIsModaltwoOpen(false); // Close the RequestAdditionalUserMore modal
+    setTimeout(() => setIsUserLimitPopupOpen(true), 300); // Open UserLimitExceeded modal after a short delay
   };
 
   return (
@@ -26,7 +25,7 @@ function CouponCodeInput() {
             loading="lazy"
             src={coupon}
             className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-            alt=""
+            alt="Coupon"
           />
           <input
             type="text"
@@ -35,45 +34,49 @@ function CouponCodeInput() {
           />
         </div>
         <button
-          onClick={() => {
-            setIsModaltwoOpen(true); // Open the modal
-          }}
+          onClick={() => setIsModaltwoOpen(true)} // Open RequestAdditionalUserMore modal
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
           Apply
         </button>
       </div>
 
-      {/* Conditional rendering based on showUserLimitExceeded */}
-      {showUserLimitExceeded ? (
-        // Render UserLimitExceeded component when "Make Payment" is clicked
-        <UserLimitExceeded />
-      ) : (
-        // Show the modal for applying coupon code if UserLimitExceeded is not triggered
+      {/* RequestAdditionalUserMore modal */}
+      <ModalAnt
+        isVisible={isModaltwoOpen}
+        onClose={() => setIsModaltwoOpen(false)}
+        showOkButton={true}
+        cancelText="Request"
+        okText="Make Payment"
+        okButtonClass="mx-[15px] w-[190px]"
+        cancelButtonClass="w-[190px]"
+        showCancelButton={true}
+        showTitle={false}
+        centered={true}
+        padding="8px"
+        customButton={false}
+        onOk={handleMakePayment} // Trigger UserLimitExceeded modal on "Make Payment"
+      >
+        <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
+          <HeaderThird />
+          <form className="flex z-0 flex-col mt-4 max-w-full w-[405px]">
+            <UserCountInputOne />
+            <DiscountCode />
+            <TotalAmount />
+          </form>
+        </section>
+      </ModalAnt>
+
+      {/* Conditionally render the UserLimitExceeded popup */}
+      {isUserLimitPopupOpen && (
         <ModalAnt
-          isVisible={isModaltwoOpen}
-          onClose={() => setIsModaltwoOpen(false)} // Close modal on cancel
-          showOkButton={true}
-          cancelText="Request"
-          okText="Make Payment"
-          okButtonClass="mx-[15px] w-[190px]"
-          cancelButtonClass="w-[190px]"
-          showCancelButton={true}
-          showTitle={false}
+          isVisible={isUserLimitPopupOpen}
+          onClose={() => setIsUserLimitPopupOpen(false)} // Close the UserLimitExceeded popup
+          showOkButton={false}
+          showCancelButton={false}
           centered={true}
-          padding="8px"
-          customButton={false}
-          onOk={handleMakePayment} // Call handleMakePayment when "Make Payment" is clicked
         >
-          {/* Form Section */}
-          <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
-            <HeaderThird />
-            <form className="flex z-0 flex-col mt-4 max-w-full w-[405px]">
-              <UserCountInputOne />
-              <DiscountCode />
-              <TotalAmount />
-            </form>
-          </section>
+          <UserLimitExceeded />
         </ModalAnt>
       )}
     </div>
@@ -81,18 +84,3 @@ function CouponCodeInput() {
 }
 
 export default CouponCodeInput;
-
-
-
-onOk is not a function
-TypeError: onOk is not a function
-    at handleSubmit (http://localhost:3000/static/js/bundle.js:182994:7)
-    at onClick (http://localhost:3000/static/js/bundle.js:173394:35)
-    at handleClick (http://localhost:3000/static/js/bundle.js:273535:55)
-    at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:495627:18)
-    at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:495671:20)
-    at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:495728:35)
-    at invokeGuardedCallbackAndCatchFirstError (http://localhost:3000/static/js/bundle.js:495742:29)
-    at executeDispatch (http://localhost:3000/static/js/bundle.js:499885:7)
-    at processDispatchQueueItemsInOrder (http://localhost:3000/static/js/bundle.js:499911:11)
-    at processDispatchQueue (http://localhost:3000/static/js/bundle.js:499922:9)

@@ -13,14 +13,8 @@ function CouponCodeInput() {
 
   // Function to handle showing UserLimitExceeded
   const handleMakePayment = () => {
-    setIsModaltwoOpen(false); // Close modal
     setShowLimitExceeded(true); // Show UserLimitExceeded component
   };
-
-  // Conditionally render only UserLimitExceeded or the modal input form
-  if (showLimitExceeded) {
-    return <UserLimitExceeded />; // Only show the UserLimitExceeded page
-  }
 
   return (
     <div className="flex flex-col mt-3.5 w-[410px] text-sm leading-none min-h-[53px]">
@@ -64,14 +58,21 @@ function CouponCodeInput() {
         customButton={false}
         onOk={handleMakePayment} // Call handleMakePayment on clicking "Make Payment"
       >
-        <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
-          <HeaderThird />
-          <form className="flex z-0 flex-col mt-4 max-w-full w-[405px]">
-            <UserCountInputOne />
-            <DiscountCode />
-            <TotalAmount />
-          </form>
-        </section>
+        {/* If-Else statement inside the section */}
+        {showLimitExceeded ? (
+          // If showLimitExceeded is true, render UserLimitExceeded component
+          <UserLimitExceeded />
+        ) : (
+          // Else render the form
+          <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
+            <HeaderThird />
+            <form className="flex z-0 flex-col mt-4 max-w-full w-[405px]">
+              <UserCountInputOne />
+              <DiscountCode />
+              <TotalAmount />
+            </form>
+          </section>
+        )}
       </ModalAnt>
     </div>
   );

@@ -11,12 +11,15 @@ import Secondcard from "../../../../assets/images/Secondcard.png";
 
 function LoyaltriMobileApplication() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false); // State to show ActiveInactiveUsers
-  
+  const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false); 
+
   const closeActiveInactiveUsers = () => {
     setShowActiveInactiveUsers(false);
   };
 
+  const closeRequestAdditionalUserModal = () => {
+    setIsModalOpen(false); // This will close the first modal
+  };
 
   return (
     <article className="relative flex flex-col w-[380px] h-[250px] min-w-[320px] min-h-[250px] bg-white rounded-2xl border-violet-600 border-opacity-20 overflow-hidden">
@@ -44,7 +47,7 @@ function LoyaltriMobileApplication() {
 
         {/* Bottom-left: User Count */}
         <div className="absolute bottom-4 left-5 z-10">
-          <UserCount onsubmit={() => setShowActiveInactiveUsers(true)} /> {/* Trigger popup */}
+          <UserCount onsubmit={() => setShowActiveInactiveUsers(true)} />
         </div>
 
         {/* Bottom-right: Request More Users */}
@@ -74,13 +77,13 @@ function LoyaltriMobileApplication() {
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderSecond />
           <UserCountInput />
-          <CouponCodeInput />
+          <CouponCodeInput closeRequestAdditionalUserModal={closeRequestAdditionalUserModal} />
         </section>
       </ModalAnt>
 
       {/* Conditionally render ActiveInactiveUsers */}
       {showActiveInactiveUsers && (
-        <ActiveInactiveUsers closePopup={closeActiveInactiveUsers} /> // Pass close function
+        <ActiveInactiveUsers closePopup={closeActiveInactiveUsers} />
       )}
     </article>
   );

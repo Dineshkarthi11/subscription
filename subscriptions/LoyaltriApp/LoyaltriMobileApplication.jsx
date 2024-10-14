@@ -5,19 +5,25 @@ import RequestMoreUsers from "./RequestMoreUsers";
 import ModalAnt from "../../../common/ModalAnt";
 import UserCountInput from "../RequestAdditionalUser/UserCountInput";
 import CouponCodeInput from "../RequestAdditionalUser/CouponCodeInput";
-import ActionButtons from "../RequestAdditionalUser/ActionButtons";
 import HeaderSecond from "../RequestAdditionalUser/HeaderSecond";
 import ActiveInactiveUsers from "../ActiveInactiveUsers/ActiveInactiveUsers";
 import HeaderActive from "../ActiveInactiveUsers/HeaderActive";
 import Secondcard from "../../../../assets/images/Secondcard.png";
+import UserLimitExceeded from "../UserLimitExceeded"; // Import UserLimitExceeded
 
 function LoyaltriMobileApplication() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false); // State to show ActiveInactiveUsers
+  const [showUserLimitExceeded, setShowUserLimitExceeded] = useState(false); // New state for showing UserLimitExceeded
 
   const closeActiveInactiveUsers = () => {
     setShowActiveInactiveUsers(false);
   };
+
+  // Check if we should show the UserLimitExceeded page
+  if (showUserLimitExceeded) {
+    return <UserLimitExceeded />;
+  }
 
   return (
     <article className="relative flex flex-col w-[380px] h-[250px] min-w-[320px] min-h-[250px] bg-white rounded-2xl border-violet-600 border-opacity-20 overflow-hidden">
@@ -71,6 +77,10 @@ function LoyaltriMobileApplication() {
         centered={true}
         padding="8px"
         customButton={false}
+        onOk={() => {
+          setIsModalOpen(false); // Close modal
+          setShowUserLimitExceeded(true); // Show UserLimitExceeded page
+        }}
       >
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderSecond />

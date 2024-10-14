@@ -13,8 +13,14 @@ function LoyaltriMobileApplication() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false);
 
+  // Close ActiveInactiveUsers
   const closeActiveInactiveUsers = () => {
     setShowActiveInactiveUsers(false);
+  };
+
+  // Close RequestMoreUsers and first modal
+  const closeAllPopups = () => {
+    setIsModalOpen(false); // Close the LoyaltriMobileApplication modal
   };
 
   return (
@@ -74,7 +80,8 @@ function LoyaltriMobileApplication() {
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderSecond />
           <UserCountInput />
-          <CouponCodeInput closeRequestAdditionalUserModal={() => setIsModalOpen(false)} /> {/* Pass callback to close modal */}
+          {/* Pass closeAllPopups as a prop to close the first modal */}
+          <CouponCodeInput closeRequestAdditionalUserModal={closeAllPopups} />
         </section>
       </ModalAnt>
 

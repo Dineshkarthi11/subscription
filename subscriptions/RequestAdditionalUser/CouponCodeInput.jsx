@@ -13,12 +13,22 @@ function CouponCodeInput() {
 
   // Function to handle the Apply button click and close the RequestAdditionalUserMore modal
   const handleApplyClick = () => {
-    setIsModaltwoOpen(false); // Close the RequestAdditionalUserMore modal
+    setIsModaltwoOpen(true); // Open the RequestAdditionalUserMore modal
   };
 
   // Function to handle Make Payment button click
   const handleMakePayment = () => {
-    setTimeout(() => setIsUserLimitPopupOpen(true), 300); // Open UserLimitExceeded modal after a short delay
+    // Close the RequestAdditionalUserMore modal and open UserLimitExceeded modal after a short delay
+    setIsModaltwoOpen(false);
+    setTimeout(() => {
+      setIsUserLimitPopupOpen(true);
+    }, 300);
+  };
+
+  // Function to close all modals and open only the UserLimitExceeded modal
+  const handleCloseAllAndOpenUserLimitExceeded = () => {
+    setIsModaltwoOpen(false); // Close RequestAdditionalUserMore modal
+    setIsUserLimitPopupOpen(true); // Open UserLimitExceeded modal
   };
 
   return (
@@ -38,7 +48,7 @@ function CouponCodeInput() {
           />
         </div>
         <button
-          onClick={() => setIsModaltwoOpen(true)} // Open RequestAdditionalUserMore modal
+          onClick={handleApplyClick} // Open RequestAdditionalUserMore modal
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
           Apply
@@ -59,7 +69,7 @@ function CouponCodeInput() {
         centered={true}
         padding="8px"
         customButton={false}
-        onOk={handleMakePayment} // Corrected onOk to trigger UserLimitExceeded modal
+        onOk={handleMakePayment} // Trigger UserLimitExceeded modal and close others
       >
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderThird />

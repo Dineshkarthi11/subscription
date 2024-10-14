@@ -18,7 +18,6 @@ function CouponCodeInput() {
 
   // Function to handle Make Payment button click
   const handleMakePayment = () => {
-    setIsModaltwoOpen(false); // Close the RequestAdditionalUserMore modal
     setTimeout(() => setIsUserLimitPopupOpen(true), 300); // Open UserLimitExceeded modal after a short delay
   };
 
@@ -39,7 +38,7 @@ function CouponCodeInput() {
           />
         </div>
         <button
-          onClick={handleApplyClick} // Close the first modal on Apply click
+          onClick={() => setIsModaltwoOpen(true)} // Open RequestAdditionalUserMore modal
           className="flex items-start self-stretch my-auto font-semibold whitespace-nowrap rounded-lg text-zinc-800 overflow-hidden gap-2 px-3.5 py-2 bg-white border border-solid shadow-sm border-black border-opacity-10"
         >
           Apply
@@ -49,7 +48,7 @@ function CouponCodeInput() {
       {/* RequestAdditionalUserMore modal */}
       <ModalAnt
         isVisible={isModaltwoOpen}
-        onClose={() => setIsModaltwoOpen(false)}
+        onClose={() => setIsModaltwoOpen(false)} // Correct close handler
         showOkButton={true}
         cancelText="Request"
         okText="Make Payment"
@@ -60,7 +59,7 @@ function CouponCodeInput() {
         centered={true}
         padding="8px"
         customButton={false}
-        onOk={handleMakePayment} // Trigger UserLimitExceeded modal on "Make Payment"
+        onOk={handleMakePayment} // Corrected onOk to trigger UserLimitExceeded modal
       >
         <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
           <HeaderThird />
@@ -89,16 +88,3 @@ function CouponCodeInput() {
 }
 
 export default CouponCodeInput;
-
-onOk is not a function
-TypeError: onOk is not a function
-    at handleSubmit (http://localhost:3000/static/js/bundle.js:183241:7)
-    at onClick (http://localhost:3000/static/js/bundle.js:173615:35)
-    at handleClick (http://localhost:3000/static/js/bundle.js:273771:55)
-    at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:495863:18)
-    at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:495907:20)
-    at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:495964:35)
-    at invokeGuardedCallbackAndCatchFirstError (http://localhost:3000/static/js/bundle.js:495978:29)
-    at executeDispatch (http://localhost:3000/static/js/bundle.js:500121:7)
-    at processDispatchQueueItemsInOrder (http://localhost:3000/static/js/bundle.js:500147:11)
-    at processDispatchQueue (http://localhost:3000/static/js/bundle.js:500158:9)

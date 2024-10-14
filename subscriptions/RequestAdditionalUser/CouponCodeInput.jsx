@@ -4,16 +4,18 @@ import UserCountInputOne from "../RequestAdditionalUserMore/UserCountInputOne";
 import DiscountCode from "../RequestAdditionalUserMore/DiscountCode";
 import TotalAmount from "../RequestAdditionalUserMore/TotalAmount";
 import HeaderThird from "../RequestAdditionalUserMore/HeaderThird";
-import UserLimitExceeded from "../UserLimitExceeded"; // Import UserLimitExceeded
+import UserLimitExceeded from "../UserLimitExceeded"; // Import UserLimitExceeded component
 import coupon from "../../../../assets/images/coupon.png";
 
 function CouponCodeInput() {
   const [isModaltwoOpen, setIsModaltwoOpen] = useState(false); // Modal for RequestAdditionalUserMore
-  const [showLimitExceeded, setShowLimitExceeded] = useState(false); // State to show UserLimitExceeded
+  const [showUserLimitExceeded, setShowUserLimitExceeded] = useState(false); // State to toggle UserLimitExceeded
 
-  // Function to handle showing UserLimitExceeded
+  // Function to handle showing UserLimitExceeded component
   const handleMakePayment = () => {
-    setShowLimitExceeded(true); // Show UserLimitExceeded component
+    // Set state to show UserLimitExceeded
+    setShowUserLimitExceeded(true);
+    setIsModaltwoOpen(false); // Close the modal
   };
 
   return (
@@ -42,28 +44,28 @@ function CouponCodeInput() {
         </button>
       </div>
 
-      {/* Show RequestAdditionalUserMore modal */}
-      <ModalAnt
-        isVisible={isModaltwoOpen}
-        onClose={() => setIsModaltwoOpen(false)} // Close modal on cancel
-        showOkButton={true}
-        cancelText="Request"
-        okText="Make Payment"
-        okButtonClass="mx-[15px] w-[190px]"
-        cancelButtonClass="w-[190px]"
-        showCancelButton={true}
-        showTitle={false}
-        centered={true}
-        padding="8px"
-        customButton={false}
-        onOk={handleMakePayment} // Call handleMakePayment when "Make Payment" is clicked
-      >
-        {/* Conditionally render based on showLimitExceeded */}
-        {showLimitExceeded ? (
-          // If showLimitExceeded is true, render UserLimitExceeded component
-          <UserLimitExceeded />
-        ) : (
-          // Else render the form
+      {/* Conditional rendering based on showUserLimitExceeded */}
+      {showUserLimitExceeded ? (
+        // Render UserLimitExceeded component when "Make Payment" is clicked
+        <UserLimitExceeded />
+      ) : (
+        // Show the modal for applying coupon code if UserLimitExceeded is not triggered
+        <ModalAnt
+          isVisible={isModaltwoOpen}
+          onClose={() => setIsModaltwoOpen(false)} // Close modal on cancel
+          showOkButton={true}
+          cancelText="Request"
+          okText="Make Payment"
+          okButtonClass="mx-[15px] w-[190px]"
+          cancelButtonClass="w-[190px]"
+          showCancelButton={true}
+          showTitle={false}
+          centered={true}
+          padding="8px"
+          customButton={false}
+          onOk={handleMakePayment} // Call handleMakePayment when "Make Payment" is clicked
+        >
+          {/* Form Section */}
           <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
             <HeaderThird />
             <form className="flex z-0 flex-col mt-4 max-w-full w-[405px]">
@@ -72,8 +74,8 @@ function CouponCodeInput() {
               <TotalAmount />
             </form>
           </section>
-        )}
-      </ModalAnt>
+        </ModalAnt>
+      )}
     </div>
   );
 }

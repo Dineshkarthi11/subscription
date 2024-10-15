@@ -31,12 +31,12 @@ function SubscriptionDetails() {
       {/* Cards */}
       <div className="flex flex-col md:flex-row gap-[50px] mt-4">
         {/* LoyaltriWebApp */}
-        <div className="min-h-[350px] max-h-[500px]">
+        <div className="min-h-[350px] max-h-[500px] md:min-h-[300px]">
           <LoyaltriWebApp className="w-full h-full rounded-lg shadow-lg" />
         </div>
 
         {/* LoyaltriMobileApplication */}
-        <div className="min-h-[350px] max-h-[500px]">
+        <div className="min-h-[350px] max-h-[500px] md:min-h-[300px]">
           <LoyaltriMobileApplication className="w-full h-full rounded-lg border border-dashed border-violet-600" />
         </div>
       </div>

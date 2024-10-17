@@ -10,6 +10,11 @@ import UserInfoDetails from "./UserInfoDetails";
 import Firstcard from "../../../../assets/images/Firstcard.png";
 import ActiveInactiveUsers from "../ActiveInactiveUsers/ActiveInactiveUsers";
 
+// New imports from the second popup that you wanted to merge
+import UserCountInputOne from "../RequestAdditionalUserMore/UserCountInputOne";
+import DiscountCode from "../RequestAdditionalUserMore/DiscountCode";
+import TotalAmount from "../RequestAdditionalUserMore/TotalAmount";
+
 function LoyaltriWebApp() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false);
@@ -24,7 +29,6 @@ function LoyaltriWebApp() {
 
   const handleApplyCoupon = () => {
     // Logic for applying coupon code
-    // ...
     // After applying coupon, close the modal
     setIsModalOpen(false);
   };
@@ -61,28 +65,36 @@ function LoyaltriWebApp() {
         </div>
 
         <ModalAnt
-        isVisible={isModalOpen}
-        onClose={() => setIsModalOpen(false)} // Close the modal
-        showOkButton={true}
-        cancelText="Request"
-        okText="Apply Coupon"
-        okButtonClass="mx-[15px] w-[190px]"
-        cancelButtonClass="w-[190px]"
-        showCancelButton={true}
-        showTitle={false}
-        centered={true}
-        padding="8px"
-        customButton={false}
-      >
-        <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
-          <HeaderSecond />
-          <UserCountInput />
-          <CouponCodeInput 
-            closeRequestAdditionalUserModal={() => setIsModalOpen(false)} 
-            onApplyCoupon={handleApplyCoupon} // Pass the apply coupon handler
-          />
-        </section>
-      </ModalAnt>
+          isVisible={isModalOpen}
+          onClose={() => setIsModalOpen(false)} // Close the modal
+          showOkButton={true}
+          cancelText="Request"
+          okText="Apply Coupon"
+          okButtonClass="mx-[15px] w-[190px]"
+          cancelButtonClass="w-[190px]"
+          showCancelButton={true}
+          showTitle={false}
+          centered={true}
+          padding="8px"
+          customButton={false}
+        >
+          <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[460px] rounded-2xl max-w-[437px]">
+            {/* First Popup Header */}
+            <HeaderSecond />
+
+            {/* Existing UserCountInput and CouponCodeInput */}
+            <UserCountInput />
+            <CouponCodeInput 
+              closeRequestAdditionalUserModal={() => setIsModalOpen(false)} 
+              onApplyCoupon={handleApplyCoupon}
+            />
+
+            {/* Merged Form Components from the Second Popup */}
+            <UserCountInputOne />
+            <DiscountCode />
+            <TotalAmount />
+          </section>
+        </ModalAnt>
       </article>
 
       {/* ActiveInactiveUsers Popup */}
@@ -94,4 +106,3 @@ function LoyaltriWebApp() {
 }
 
 export default LoyaltriWebApp;
-

@@ -33,6 +33,12 @@ function LoyaltriWebApp() {
     setIsSecondPage(true);
   };
 
+  const handleMakePayment = () => {
+    // Logic for making payment
+    console.log("Payment made");
+    setIsModalOpen(false); // Close modal after payment
+  };
+
   const handleBackToFirstPage = () => {
     // Go back to the first page
     setIsSecondPage(false);
@@ -72,9 +78,9 @@ function LoyaltriWebApp() {
         <ModalAnt
           isVisible={isModalOpen}
           onClose={() => setIsModalOpen(false)} // Close the modal
-          showOkButton={!isSecondPage} // Show OK button only on the first page
-          cancelText={isSecondPage ? "Back" : "Request"} // Show "Back" button on second page
-          okText={isSecondPage ? "" : "Apply Coupon"} // Hide "Apply" button on second page
+          showOkButton={true} // Show OK button
+          cancelText={isSecondPage ? "Back" : "Request"} // Show "Back" on second page
+          okText={isSecondPage ? "Make Payment" : "Apply Coupon"} // Show "Make Payment" on second page
           okButtonClass="mx-[15px] w-[190px]"
           cancelButtonClass="w-[190px]"
           showCancelButton={true}
@@ -82,6 +88,7 @@ function LoyaltriWebApp() {
           centered={true}
           padding="8px"
           customButton={false}
+          onOk={isSecondPage ? handleMakePayment : handleApplyCoupon} // "Make Payment" on second page, "Apply" on first page
           onCancel={isSecondPage ? handleBackToFirstPage : null} // If on second page, "Back" goes to first page
         >
           <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">

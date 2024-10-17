@@ -10,7 +10,7 @@ import UserInfoDetails from "./UserInfoDetails";
 import Firstcard from "../../../../assets/images/Firstcard.png";
 import ActiveInactiveUsers from "../ActiveInactiveUsers/ActiveInactiveUsers";
 
-// New imports from the second popup that you wanted to merge
+// New imports for second section components
 import UserCountInputOne from "../RequestAdditionalUserMore/UserCountInputOne";
 import DiscountCode from "../RequestAdditionalUserMore/DiscountCode";
 import TotalAmount from "../RequestAdditionalUserMore/TotalAmount";
@@ -18,6 +18,7 @@ import TotalAmount from "../RequestAdditionalUserMore/TotalAmount";
 function LoyaltriWebApp() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showActiveInactiveUsers, setShowActiveInactiveUsers] = useState(false);
+  const [isSecondPage, setIsSecondPage] = useState(false); // Track if we are showing the second page
 
   const handleUserInfoClick = () => {
     setShowActiveInactiveUsers(true); // Open the popup
@@ -28,9 +29,13 @@ function LoyaltriWebApp() {
   };
 
   const handleApplyCoupon = () => {
-    // Logic for applying coupon code
-    // After applying coupon, close the modal
-    setIsModalOpen(false);
+    // Switch to the second page when "Apply" is clicked
+    setIsSecondPage(true);
+  };
+
+  const handleBackToFirstPage = () => {
+    // Go back to the first page
+    setIsSecondPage(false);
   };
 
   return (
@@ -67,9 +72,9 @@ function LoyaltriWebApp() {
         <ModalAnt
           isVisible={isModalOpen}
           onClose={() => setIsModalOpen(false)} // Close the modal
-          showOkButton={true}
-          cancelText="Request"
-          okText="Apply Coupon"
+          showOkButton={!isSecondPage} // Show OK button only on the first page
+          cancelText={isSecondPage ? "Back" : "Request"} // Show "Back" button on second page
+          okText={isSecondPage ? "" : "Apply Coupon"} // Hide "Apply" button on second page
           okButtonClass="mx-[15px] w-[190px]"
           cancelButtonClass="w-[190px]"
           showCancelButton={true}
@@ -77,22 +82,27 @@ function LoyaltriWebApp() {
           centered={true}
           padding="8px"
           customButton={false}
+          onCancel={isSecondPage ? handleBackToFirstPage : null} // If on second page, "Back" goes to first page
         >
-          <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[460px] rounded-2xl max-w-[437px]">
-            {/* First Popup Header */}
-            <HeaderSecond />
-
-            {/* Existing UserCountInput and CouponCodeInput */}
-            <UserCountInput />
-            <CouponCodeInput 
-              closeRequestAdditionalUserModal={() => setIsModalOpen(false)} 
-              onApplyCoupon={handleApplyCoupon}
-            />
-
-            {/* Merged Form Components from the Second Popup */}
-            <UserCountInputOne />
-            <DiscountCode />
-            <TotalAmount />
+          <section className="flex overflow-hidden relative flex-col items-center py-5 w-[437px] h-[320px] rounded-2xl max-w-[437px]">
+            {/* If not on the second page, show the first page content */}
+            {!isSecondPage ? (
+              <>
+                <HeaderSecond />
+                <UserCountInput />
+                <CouponCodeInput 
+                  closeRequestAdditionalUserModal={() => setIsModalOpen(false)} 
+                  onApplyCoupon={handleApplyCoupon} // Switch to second page on apply
+                />
+              </>
+            ) : (
+              // If on the second page, show second page content
+              <>
+                <UserCountInputOne />
+                <DiscountCode />
+                <TotalAmount />
+              </>
+            )}
           </section>
         </ModalAnt>
       </article>
